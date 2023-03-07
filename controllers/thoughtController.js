@@ -9,7 +9,7 @@ module.exports = {
   },
   // Get a single thought by id
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.thoughtId })
+    Thought.findOne({ _id: req.params.id })
       .select("-__v")
       .then((thought) =>
         !thought
@@ -25,27 +25,25 @@ module.exports = {
       username: req.body.username,
     })
       .then((thought) => {
-        User.findOneAndUpdate(
-          {
-            _id: req.body.userId,
-          },
+        console.log(req.body);
+        console.log(thought._id)
+      return User.findOneAndUpdate(
+          { _id: req.body.userId },
           { $push: { thoughts: thought._id } }
         );
-      })
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
       })
       .then(() => res.json({ message: "Added new thought!" }))
       .catch((err) => res.status(500).json(err));
   },
   // Delete a thought
   deleteThought(req, res) {
-    Thought.findOneAndDelete({ _id: req.params.thoguhtId })
-      .then((thoguht) =>
-        !thoguht
-          ? res.status(404).json({ message: "No thoguht with that ID" })
-          : User.findOneAndUpdate({ username: { $pull: thoguht.username } })
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "No thought with that ID" })
+          : User.findOneAndUpdate(
+            {thoughts: req.params.thoughtId},
+            { $pull: {thoughts: req.params.thoughtId}} )
       )
       .then(() => res.json({ message: "Thought deleted!" }))
       .catch((err) => res.status(500).json(err));
