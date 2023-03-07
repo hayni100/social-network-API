@@ -1,7 +1,7 @@
 {
-  "name": "social-network-api",
+  "name": "social-netowrk-api",
   "version": "1.0.1",
-  "description": "mongoose backend project ",
+  "description": "Mongoose back-end project",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "mongodb": "^5.1.0",
     "mongoose": "^6.0.13"
   },
   "devDependencies": {
